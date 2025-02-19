@@ -8,7 +8,8 @@ import sys
 import random
 from datetime import datetime
 from functools import partial
-
+from torchvision.transforms import Compose
+import copy
 import numpy as np
 import torch
 from torch import optim
@@ -240,6 +241,8 @@ def main(args):
         cache_dir=args.cache_dir,
         **model_kwargs,
     )
+    new_preprocess = Compose([preprocess_val.transforms[0:]] + preprocess_train.transforms[1:])
+    preprocess_train = copy.deepcopy(new_preprocess)
     if args.distill:
         # FIXME: currently assumes the model you're distilling from has the same tokenizer & transforms.
         dist_model, _, _ = create_model_and_transforms(
