@@ -241,7 +241,7 @@ def main(args):
         cache_dir=args.cache_dir,
         **model_kwargs,
     )
-    new_preprocess = Compose([preprocess_val.transforms[0:]] + preprocess_train.transforms[1:])
+    new_preprocess = Compose([preprocess_val.transforms[0]] + preprocess_train.transforms[1:])
     preprocess_train = copy.deepcopy(new_preprocess)
     if args.distill:
         # FIXME: currently assumes the model you're distilling from has the same tokenizer & transforms.
